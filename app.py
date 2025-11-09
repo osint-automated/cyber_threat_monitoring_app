@@ -50,8 +50,8 @@ def home_page():
     # Introduction to the app
     st.markdown("""
     This app allows you to monitor and explore various types of **cyber threats** that organizations and individuals face daily. 
-    With the increasing frequency of cyberattacks, it’s essential to stay informed and take proactive measures to protect sensitive data.  
-    <a href="https://cti-report.streamlit.app/" target="_blank">See also: Cyber Threat Intelligence (CTI) Report</a>
+    With the increasing frequency of cyberattacks, it’s essential to stay informed and take proactive measures to protect sensitive data. See also:   
+    <a href="https://cti-report.streamlit.app/" target="_blank">Cyber Threat Intelligence (CTI) Report</a>
 
     In this app, you can explore the latest news and incidents related to a variety of cyber threats, such as:
     - **APT Campaigns** (Advanced Persistent Threats)
