@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 import dateparser
 
+st.set_page_config(page_title="Cyber Threat Monitoring App", page_icon=":shield:")
+
 # Function to clean HTML content
 def clean(t): 
     return BeautifulSoup(t or "", "html.parser").get_text().strip()
