@@ -89,15 +89,6 @@ def home_page():
     - **Influence Operations**: Influence operations often involve the use of disinformation, fake news, or other forms of psychological manipulation to affect public opinion or sway elections. The app tracks these operations in various sectors such as politics, media, and government.
     """)
 
-    # Call to Action
-    st.write("### Why Should You Use This App?")
-    st.write("""
-    - **Stay Informed**: The landscape of cyber threats is constantly changing. This app ensures you stay up-to-date with the latest cyber threat news.
-    - **Focus on What Matters**: With the ability to filter by sector, you can focus on the industries most relevant to your interests.
-    - **Take Action**: By being aware of the most recent threats, you can take proactive measures to protect your organization or personal information.
-    - **Download Data**: You can download the results as CSV files, making it easy to analyze the data further or share with colleagues.
-    """)
-
 # APT Campaign Search
 def apt_campaign_search():
     st.title("APT Campaign Search")
