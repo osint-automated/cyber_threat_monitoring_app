@@ -41,6 +41,25 @@ st.sidebar.markdown("""
 # Sidebar title and introduction
 st.sidebar.title("Cyber Threat Monitoring App")
 
+# --- Helper for Country-Specific Search ---
+
+def search_news_by_country(query, country_code, country_name):
+    gn = GoogleNews(lang="en", country=country_code)
+    cut = datetime.now() - timedelta(days=90)
+    results = []
+    for item in gn.search(query).get("entries", []):
+        publish_date = date(item)
+        if publish_date and publish_date < cut: 
+            continue
+        results.append({
+            "Date": publish_date.date() if publish_date else None,
+            "Title": getattr(item, "title", ""),
+            "Link": getattr(item, "link", ""),
+            "Country": country_name
+        })
+    return results
+
+
 # --- Page functions ---
 
 # Home Page
@@ -97,7 +116,6 @@ def home_page():
 def apt_campaign_search():
     st.title("APT Campaign Search")
     
-    # Explanation for users
     st.write("""
     **Advanced Persistent Threat (APT)** campaigns refer to long-term, targeted cyber-attacks aimed at stealing sensitive information or disrupting operations. 
     These attacks are typically carried out by well-funded and organized groups with specific objectives.
@@ -106,12 +124,12 @@ def apt_campaign_search():
     The results will show articles related to APT campaigns affecting the sector you specify.
     
     To use this page:
-    1. Enter the sector or term of interest in the text box below (e.g., healthcare, Lazaraus Group, etc.).
+    1. Enter the sector or term of interest in the text box below (e.g., healthcare, Lazarus Group, etc.).
     2. Click the "Search" button to display the latest APT-related news articles for that sector.
     3. You can download the results as a CSV file for further analysis.
     """)
-    
-    sector = st.text_input("Enter a sector (e.g., healthcare, Lazaraus Group, etc.):")
+
+    sector = st.text_input("Enter a sector (e.g., healthcare, Lazarus Group, etc.):")
     
     if st.button("Search") and sector:
         results = search_apt_campaign(sector)
@@ -121,25 +139,19 @@ def apt_campaign_search():
             st.dataframe(results, hide_index=True)
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_apt_campaigns.csv")
 
+
 def search_apt_campaign(sector):
     query = f'(intitle:"APT" OR "advanced persistent threat" OR "APT campaign" OR "APT" AND "cyber espionage" OR "cyber threat" OR "nation-state" OR "state-sponsored" OR "cyber operation") {sector}'
-    cut = datetime.now() - timedelta(days=90)
     results = []
-    for item in GoogleNews(lang="en").search(query).get("entries", []):
-        publish_date = date(item)
-        if publish_date and publish_date < cut: continue
-        results.append({
-            "Date": publish_date.date() if publish_date else None,
-            "Title": getattr(item, "title", ""),
-            "Link": getattr(item, "link", "")
-        })
+    results += search_news_by_country(query, "US", "United States")
+    results += search_news_by_country(query, "GB", "United Kingdom")
     return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+
 
 # Data Breach Search
 def data_breach_search():
     st.title("Data Breach Search")
     
-    # Explanation for users
     st.write("""
     A **data breach** occurs when unauthorized individuals gain access to sensitive data, often for malicious purposes. This can involve leaking personal information, credit card details, or proprietary business data.
     
@@ -162,25 +174,19 @@ def data_breach_search():
             st.dataframe(results, hide_index=True)
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_data_breaches.csv")
 
+
 def search_data_breach(sector):
     query = f'(intitle:"data breach" OR "data leak" AND "data exposure" OR "credential leak" OR "data compromise" OR "data theft" OR "data dump" OR "leaked database") {sector}'
-    cut = datetime.now() - timedelta(days=90)
     results = []
-    for item in GoogleNews(lang="en").search(query).get("entries", []):
-        publish_date = date(item)
-        if publish_date and publish_date < cut: continue
-        results.append({
-            "Date": publish_date.date() if publish_date else None,
-            "Title": getattr(item, "title", ""),
-            "Link": getattr(item, "link", "")
-        })
+    results += search_news_by_country(query, "US", "United States")
+    results += search_news_by_country(query, "GB", "United Kingdom")
     return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+
 
 # Influence Operations Search
 def influence_ops_search():
     st.title("Influence Operations Search")
     
-    # Explanation for users
     st.write("""
     **Influence operations** refer to activities carried out by governments, organizations, or individuals to sway public opinion or political outcomes, often through disinformation or propaganda.
     
@@ -202,25 +208,19 @@ def influence_ops_search():
             st.dataframe(results, hide_index=True)
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_influence_ops.csv")
 
+
 def search_influence_ops(sector):
-    query = f'(intitle:"influence operations" OR "disinformation campaign" OR "information operation" OR "propganda" OR "government influence" OR "foreign influence") {sector}'
-    cut = datetime.now() - timedelta(days=90)
+    query = f'(intitle:"influence operations" OR "disinformation campaign" OR "information operation" OR "propaganda" OR "government influence" OR "foreign influence") {sector}'
     results = []
-    for item in GoogleNews(lang="en").search(query).get("entries", []):
-        publish_date = date(item)
-        if publish_date and publish_date < cut: continue
-        results.append({
-            "Date": publish_date.date() if publish_date else None,
-            "Title": getattr(item, "title", ""),
-            "Link": getattr(item, "link", "")
-        })
+    results += search_news_by_country(query, "US", "United States")
+    results += search_news_by_country(query, "GB", "United Kingdom")
     return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+
 
 # Malware Events Search
 def malware_events_search():
     st.title("Malware Events Search")
     
-    # Explanation for users
     st.write("""
     **Malware** refers to malicious software designed to disrupt, damage, or gain unauthorized access to a computer system. This page allows you to search for news articles related to recent malware attacks or campaigns.
     
@@ -242,25 +242,19 @@ def malware_events_search():
             st.dataframe(results, hide_index=True)
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_malware_events.csv")
 
+
 def search_malware_events(sector):
     query = f'(intitle:"malware" AND "malware campaign" OR "botnet activity" OR "trojan" OR RAT OR "malicious payload" OR "malware distribution" OR "malicious software") {sector}'
-    cut = datetime.now() - timedelta(days=90)
     results = []
-    for item in GoogleNews(lang="en").search(query).get("entries", []):
-        publish_date = date(item)
-        if publish_date and publish_date < cut: continue
-        results.append({
-            "Date": publish_date.date() if publish_date else None,
-            "Title": getattr(item, "title", ""),
-            "Link": getattr(item, "link", "")
-        })
+    results += search_news_by_country(query, "US", "United States")
+    results += search_news_by_country(query, "GB", "United Kingdom")
     return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+
 
 # Ransomware Events Search
 def ransomware_events_search():
     st.title("Ransomware Events Search")
     
-    # Explanation for users
     st.write("""
     **Ransomware attacks** involve malicious software that locks or encrypts a victim’s data and demands payment for its release. 
     In this page, you can search for recent ransomware events affecting various sectors.
@@ -281,25 +275,19 @@ def ransomware_events_search():
             st.dataframe(results, hide_index=True)
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_ransomware_events.csv")
 
+
 def search_ransomware_events(sector):
     query = f'(intitle:"ransomware" OR "ransomware attack" AND "ransomware incident" OR "ransomware group" OR "ransomware campaign" OR "cyber extortion" OR "ransomware") {sector}'
-    cut = datetime.now() - timedelta(days=90)
     results = []
-    for item in GoogleNews(lang="en").search(query).get("entries", []):
-        publish_date = date(item)
-        if publish_date and publish_date < cut: continue
-        results.append({
-            "Date": publish_date.date() if publish_date else None,
-            "Title": getattr(item, "title", ""),
-            "Link": getattr(item, "link", "")
-        })
+    results += search_news_by_country(query, "US", "United States")
+    results += search_news_by_country(query, "GB", "United Kingdom")
     return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+
 
 # Social Engineering Campaign Search
 def social_engineering_campaign_search():
     st.title("Social Engineering Campaign Search")
     
-    # Explanation for users
     st.write("""
     **Social engineering** refers to psychological manipulation of people into performing actions or divulging confidential information. 
     This page allows you to search for social engineering campaigns such as phishing or fraud.
@@ -320,22 +308,16 @@ def social_engineering_campaign_search():
             st.dataframe(results, hide_index=True)
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_social_engineering_campaigns.csv")
 
+
 def search_social_engineering_campaign(sector):
-    query = f'(intitle:"social engineering" OR "phishing" AND "social engineering attack" OR "phishing scam" OR "impersonation scam" OR "email fraud" OR "cyber fraud" OR deception" OR "fraud campaign") {sector}'
-    cut = datetime.now() - timedelta(days=90)
+    query = f'(intitle:"social engineering" OR "phishing" AND "social engineering attack" OR "phishing scam" OR "impersonation scam" OR "email fraud" OR "cyber fraud" OR "fraud campaign") {sector}'
     results = []
-    for item in GoogleNews(lang="en").search(query).get("entries", []):
-        publish_date = date(item)
-        if publish_date and publish_date < cut: continue
-        results.append({
-            "Date": publish_date.date() if publish_date else None,
-            "Title": getattr(item, "title", ""),
-            "Link": getattr(item, "link", "")
-        })
+    results += search_news_by_country(query, "US", "United States")
+    results += search_news_by_country(query, "GB", "United Kingdom")
     return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
 
+
 # --- Main App Logic ---
-# Sidebar navigation using st.radio
 page = st.sidebar.radio("Select a page", [
     "Home",
     "APT Campaign Search", 
@@ -346,7 +328,6 @@ page = st.sidebar.radio("Select a page", [
     "Social Engineering Campaign Search"
 ])
 
-# Display content based on the selected page
 if page == "Home":
     home_page()
 elif page == "APT Campaign Search":
