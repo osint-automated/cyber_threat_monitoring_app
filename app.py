@@ -122,7 +122,42 @@ def apt_campaign_search():
             st.download_button("Download CSV", results.to_csv(index=False), f"{sector}_apt_campaigns.csv")
 
 def search_apt_campaign(sector):
-    query = f'(intitle:"APT" OR "advanced persistent threat" OR "APT campaign" OR "APT" AND "cyber espionage" OR "cyber threat" OR "nation-state" OR "state-sponsored" OR "cyber operation") {sector}'
+    query = f'''
+    (
+        intitle:"APT" OR
+        "Advanced Persistent Threat" OR
+        "APT group" OR
+        "APT actor" OR
+        "APT campaign" OR
+        "APT operation" OR
+        "APT attack" OR
+        "cyber espionage group" OR
+        "state-sponsored hacking" OR
+        "nation-state hacking" OR
+        "state-backed cyber attack" OR
+        "nation state cyber operation" OR
+        "state-sponsored threat actor" OR
+        "nation-state threat actor" OR
+        "cyber threat actor" OR
+        "cyber operation" OR
+        "cyber campaign" OR
+        "cyber attack" OR
+        "cyber offensive" OR
+        "espionage campaign"
+    )
+    AND
+    (
+        "cybersecurity" OR
+        "threat intelligence" OR
+        "cyber espionage" OR
+        "intrusion set" OR
+        "malware campaign" OR
+        "attack campaign" OR
+        "espionage activity" OR
+        "cyber defense"
+    )
+    {sector}
+    '''    
     cut = datetime.now() - timedelta(days=90)
     results = []
     for item in GoogleNews(lang="en").search(query).get("entries", []):
