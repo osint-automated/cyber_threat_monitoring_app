@@ -145,7 +145,7 @@ def search_apt_campaign(sector):
     results = []
     results += search_news_by_country(query, "US", "United States")
     results += search_news_by_country(query, "GB", "United Kingdom")
-    return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+    return pd.DataFrame(results).drop_duplicates(subset="Link", keep="first").sort_values("Date", ascending=False) if results else pd.DataFrame()
 
 
 # Data Breach Search
@@ -180,7 +180,7 @@ def search_data_breach(sector):
     results = []
     results += search_news_by_country(query, "US", "United States")
     results += search_news_by_country(query, "GB", "United Kingdom")
-    return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+    return pd.DataFrame(results).drop_duplicates(subset="Link", keep="first").sort_values("Date", ascending=False) if results else pd.DataFrame()
 
 
 # Influence Operations Search
@@ -214,7 +214,7 @@ def search_influence_ops(sector):
     results = []
     results += search_news_by_country(query, "US", "United States")
     results += search_news_by_country(query, "GB", "United Kingdom")
-    return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+    return pd.DataFrame(results).drop_duplicates(subset="Link", keep="first").sort_values("Date", ascending=False) if results else pd.DataFrame()
 
 
 # Malware Events Search
@@ -248,7 +248,7 @@ def search_malware_events(sector):
     results = []
     results += search_news_by_country(query, "US", "United States")
     results += search_news_by_country(query, "GB", "United Kingdom")
-    return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+    return pd.DataFrame(results).drop_duplicates(subset="Link", keep="first").sort_values("Date", ascending=False) if results else pd.DataFrame()
 
 
 # Ransomware Events Search
@@ -281,7 +281,7 @@ def search_ransomware_events(sector):
     results = []
     results += search_news_by_country(query, "US", "United States")
     results += search_news_by_country(query, "GB", "United Kingdom")
-    return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+    return pd.DataFrame(results).drop_duplicates(subset="Link", keep="first").sort_values("Date", ascending=False) if results else pd.DataFrame()
 
 
 # Social Engineering Campaign Search
@@ -314,7 +314,7 @@ def search_social_engineering_campaign(sector):
     results = []
     results += search_news_by_country(query, "US", "United States")
     results += search_news_by_country(query, "GB", "United Kingdom")
-    return pd.DataFrame(results).sort_values("Date", ascending=False) if results else pd.DataFrame()
+    return pd.DataFrame(results).drop_duplicates(subset="Link", keep="first").sort_values("Date", ascending=False) if results else pd.DataFrame()
 
 
 # --- Main App Logic ---
