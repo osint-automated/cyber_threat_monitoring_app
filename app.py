@@ -107,7 +107,7 @@ These attacks are aimed at stealing sensitive information or disrupting operatio
 """, unsafe_allow_html=True)
     sector = st.text_input("Enter a sector or keyword:")
     if st.button("Search") and sector:
-        query = f'(APT OR "advanced persistent threat" OR "cyber espionage" OR "state-sponsored") {sector}'
+        query = f'(APT OR "advanced persistent threat" OR "cyber espionage" OR "state-sponsored") AND ("{sector}")'
         results = fetch_news(query)
         if results.empty:
             st.write("No results found.")
@@ -128,7 +128,7 @@ They can involve leaked personal information, credit card details, or corporate 
 """, unsafe_allow_html=True)
     sector = st.text_input("Enter a sector or keyword:")
     if st.button("Search") and sector:
-        query = f'("data breach" OR "data leak" OR "data exposure") {sector}'
+        query = f'("data breach" OR "data leak" OR "data exposure") AND ("{sector}")'
         results = fetch_news(query)
         if results.empty:
             st.write("No results found.")
@@ -148,7 +148,7 @@ def malware_events_search():
 """, unsafe_allow_html=True)
     sector = st.text_input("Enter a sector or keyword:")
     if st.button("Search") and sector:
-        query = f'(malware OR botnet OR trojan OR RAT) {sector}'
+        query = f'(malware OR botnet OR trojan OR RAT OR "remote access trojan") AND ("{sector}")'
         results = fetch_news(query)
         if results.empty:
             st.write("No results found.")
@@ -168,7 +168,7 @@ def ransomware_events_search():
 """, unsafe_allow_html=True)
     sector = st.text_input("Enter a sector or keyword:")
     if st.button("Search") and sector:
-        query = f'(ransomware OR "ransomware attack" OR "ransomware incident") {sector}'
+        query = f'(ransomware OR "ransomware attack" OR "ransomware incident") AND ("{sector}")'
         results = fetch_news(query)
         if results.empty:
             st.write("No results found.")
@@ -188,7 +188,7 @@ def social_engineering_campaign_search():
 """, unsafe_allow_html=True)
     sector = st.text_input("Enter a sector or keyword:")
     if st.button("Search") and sector:
-        query = f'(phishing OR "social engineering" OR fraud) {sector}'
+        query = f'(phishing OR "social engineering" OR fraud OR "credential theft") AND ("{sector}")'
         results = fetch_news(query)
         if results.empty:
             st.write("No results found.")
@@ -208,7 +208,7 @@ def influence_ops_search():
 """, unsafe_allow_html=True)
     sector = st.text_input("Enter a sector or keyword:")
     if st.button("Search") and sector:
-        query = f'(disinformation OR propaganda OR "influence operation") {sector}'
+        query = f'(disinformation OR propaganda OR "influence operation" OR "information warfare") AND ("{sector}")'
         results = fetch_news(query)
         if results.empty:
             st.write("No results found.")
