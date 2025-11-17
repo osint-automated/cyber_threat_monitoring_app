@@ -3,16 +3,13 @@ import pandas as pd
 import requests
 from datetime import datetime
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 st.set_page_config(page_title="Cyber Threat Monitoring App", page_icon=":shield:")
 
 # --------------------------
 # NewsAPI Configuration
 # --------------------------
-NEWSAPI_KEY = os.getenv("newsapi_key")
+NEWSAPI_KEY = st.secrets["newsapi"]["api_key"]
 BASE_URL = "https://newsapi.org/v2/everything"
 
 # --------------------------
